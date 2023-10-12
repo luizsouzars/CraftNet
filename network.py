@@ -1,3 +1,4 @@
+
 class Network:
     """
     A class representing a simple neural network.
@@ -64,7 +65,7 @@ class Network:
         return result
 
     # train the network
-    def fit(self, x_train, y_train, epochs, learning_rate):
+    def fit(self, x_train, y_train, epochs, optmizer):
         """
         Trains the neural network using the provided training dataset.
 
@@ -73,8 +74,9 @@ class Network:
             y_train: Labels corresponding to the training input data.
             epochs: Number of training epochs.
             learning_rate: Learning rate for training.
+            optimizer: An instance of an optimizer.
         """
-
+        
         # sample dimension first
         samples = len(x_train)
 
@@ -93,7 +95,7 @@ class Network:
                 # backward propagation
                 error = self.loss_prime(y_train[j], output)
                 for layer in reversed(self.layers):
-                    error = layer.backward_propagation(error, learning_rate)
+                    error = layer.backward_propagation(error, optmizer.learning_rate)
 
             # calculate average error on all samples
             err /= samples

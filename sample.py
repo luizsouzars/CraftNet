@@ -16,6 +16,7 @@ from activations import (
     linear_prime,
 )
 from losses import mse, mse_prime
+from optimizers import adam, sgd
 
 # training data
 x_train = np.array([[[0, 0]], [[0, 1]], [[1, 0]], [[1, 1]]])
@@ -36,7 +37,7 @@ net.add(ActivationLayer(linear, linear_prime))
 
 # train
 net.use(mse, mse_prime)
-net.fit(x_train, y_train, epochs=100, learning_rate=0.01)
+net.fit(x_train, y_train, epochs=100, optimizer=adam(learning_rating=0.01, alpha=None ,beta=0.9, gamma=0.99, epsilon=1e-20))
 
 # test
 out = net.predict(x_train)
