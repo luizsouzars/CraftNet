@@ -1,3 +1,4 @@
+
 class Network:
     """
     A class representing a simple neural network.
@@ -75,7 +76,7 @@ class Network:
             learning_rate: Learning rate for training.
             optimizer: An instance of an optimizer.
         """
-
+        
         # sample dimension first
         samples = len(x_train)
 
