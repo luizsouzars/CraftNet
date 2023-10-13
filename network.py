@@ -1,3 +1,5 @@
+import numpy as np
+
 
 class Network:
     """
@@ -65,7 +67,7 @@ class Network:
         return result
 
     # train the network
-    def fit(self, x_train, y_train, epochs, optmizer):
+    def fit(self, x_train, y_train, epochs, batch_size: int, optmizer):
         """
         Trains the neural network using the provided training dataset.
 
@@ -76,27 +78,48 @@ class Network:
             learning_rate: Learning rate for training.
             optimizer: An instance of an optimizer.
         """
-        
+
         # sample dimension first
         samples = len(x_train)
+        iterations = samples // batch_size
 
         # training loop
         for i in range(epochs):
-            err = 0
-            for j in range(samples):
-                # forward propagation
-                output = x_train[j]
-                for layer in self.layers:
-                    output = layer.forward_propagation(output)
+            err_epoch = 0
 
-                # compute loss (for display purpose only)
-                err += self.loss(y_train[j], output)
+            # mini-batches
+            rng = np.random.default_rng()
+            mini_batches = []
 
-                # backward propagation
-                error = self.loss_prime(y_train[j], output)
-                for layer in reversed(self.layers):
-                    error = layer.backward_propagation(error, optmizer.learning_rate)
+            for _ in range(iterations):
+                mini_batches.append(rng.choice(samples, batch_size, replace=False))
+
+            if samples % batch_size != 0:
+                remainder = samples - (iterations * batch_size)
+                mini_batches.append(rng.choice(samples, remainder, replace=False))
+
+            for iterarion, mini_batch in enumerate(mini_batches):
+                err_iteration = 0
+                for j in mini_batch:
+                    # forward propagation
+                    output = x_train[j]
+                    for layer in self.layers:
+                        output = layer.forward_propagation(output)
+
+                    # compute loss (for display purpose only)
+                    err_iteration += self.loss(y_train[j], output)
+                    err_epoch += err_iteration
+
+                    # backward propagation
+                    error = self.loss_prime(y_train[j], output)
+                    for layer in reversed(self.layers):
+                        error = layer.backward_propagation(
+                            error, optmizer.learning_rate
+                        )
+                print(
+                    f"epoch:{i+1}    iteration:{iterarion+1}/{iterations}   error={err_iteration}"
+                )
 
             # calculate average error on all samples
-            err /= samples
-            print("epoch %d/%d   error=%f" % (i + 1, epochs, err))
+            err_epoch /= samples
+            print("epoch %d/%d   error=%f" % (i + 1, epochs, err_epoch))

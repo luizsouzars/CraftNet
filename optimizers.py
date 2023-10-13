@@ -1,8 +1,14 @@
-
-class adam():
-    
-    def __init__(self, learning_rating, n_steps, alpha, beta, gamma, epsilon):
-        self.learning_rating = learning_rating
+class adam:
+    def __init__(
+        self,
+        learning_rate=0.01,
+        n_steps=10,
+        alpha=None,
+        beta=0.9,
+        gamma=0.99,
+        epsilon=1e-20,
+    ):
+        self.learning_rate = learning_rate
         self.n_steps = n_steps
         self.alpha = alpha
         self.beta = beta
@@ -13,12 +19,11 @@ class adam():
         None
 
 
-class sgd():
-    
-    def __init__(self, learning_rating, momentum, nesterov_momentum):
-        self.learning_rating = learning_rating
+class sgd:
+    def __init__(self, learning_rate, momentum, nesterov_momentum):
+        self.learning_rate = learning_rate
         self.momentum = momentum
         self.nesterov_momentum = nesterov_momentum
-        
+
     def update(self):
         None
