@@ -41,6 +41,7 @@ net.fit(
     x_train,
     y_train,
     epochs=100,
+    batch_size=len(x_train),
     optimizer=adam(learning_rate=0.01, alpha=None, beta=0.9, gamma=0.99, epsilon=1e-20),
 )
 

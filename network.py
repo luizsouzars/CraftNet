@@ -42,7 +42,7 @@ class Network:
         self.loss_prime = loss_prime
 
     # predict output for given input
-    def predict(self, input_data):
+    def predict(self, input_data: np.ndarray):
         """
         Performs output prediction for provided input data.
 
@@ -67,7 +67,14 @@ class Network:
         return result
 
     # train the network
-    def fit(self, x_train, y_train, epochs, batch_size: int, optmizer):
+    def fit(
+        self,
+        x_train: np.ndarray,
+        y_train: np.ndarray,
+        epochs: int,
+        batch_size: int,
+        optimizer,
+    ):
         """
         Trains the neural network using the provided training dataset.
 
@@ -75,7 +82,7 @@ class Network:
             x_train: Training input data.
             y_train: Labels corresponding to the training input data.
             epochs: Number of training epochs.
-            learning_rate: Learning rate for training.
+            batch_size: Size of mini-batches used during training.
             optimizer: An instance of an optimizer.
         """
 
@@ -114,7 +121,7 @@ class Network:
                     error = self.loss_prime(y_train[j], output)
                     for layer in reversed(self.layers):
                         error = layer.backward_propagation(
-                            error, optmizer.learning_rate
+                            error, optimizer.learning_rate
                         )
                 print(
                     f"epoch:{i+1}    iteration:{iterarion+1}/{iterations}   error={err_iteration}"
