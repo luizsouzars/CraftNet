@@ -7,3 +7,6 @@
 
 # Read MNIST Dataset
 - https://www.kaggle.com/code/hojjatk/read-mnist-dataset/notebook
+
+# Mini-Batch Gradient Descent
+https://www.geeksforgeeks.org/ml-mini-batch-gradient-descent-with-python/
