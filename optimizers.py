@@ -1,3 +1,4 @@
+
 class adam:
     def __init__(
         self,
@@ -17,7 +18,6 @@ class adam:
 
     def update(self):
         None
-
 
 class sgd:
     def __init__(self, learning_rate, momentum, nesterov_momentum):

@@ -4,4 +4,18 @@ https://www.deeplearning.ai/ai-notes/initialization/index.html
 
 """
 
-
+class Xavier():
+    
+    def __init__(self) -> None:
+        pass
+    
+    def update():
+        pass
+   
+class He():
+    
+    def __init__(self) -> None:
+        pass
+    
+    def update():
+        pass

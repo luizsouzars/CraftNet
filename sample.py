@@ -17,6 +17,7 @@ from activations import (
 )
 from losses import mse, mse_prime
 from optimizers import adam, sgd
+from weights import He, Xavier
 
 # training data
 x_train = np.array([[[1, 1]], [[2, 2]], [[4, 4]], [[8, 8]]])
@@ -31,7 +32,7 @@ net = Network()
 #net.add(ActivationLayer(tanh, tanh_prime))
 #net.add(FCLayer(64, 32))
 #net.add(ActivationLayer(sigmoid, sigmoid_prime))
-net.add(FCLayer(2, 2))
+net.add(FCLayer(2, 2, ReLU, ReLU_prime, initilization=He))
 net.add(ActivationLayer(ReLU, ReLU_prime))
 net.add(FCLayer(2, 1))
 net.add(ActivationLayer(ReLU, ReLU_prime))
