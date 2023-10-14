@@ -3,3 +3,5 @@ https://machinelearningmastery.com/weight-initialization-for-deep-learning-neura
 https://www.deeplearning.ai/ai-notes/initialization/index.html
 
 """
+
+

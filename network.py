@@ -63,7 +63,8 @@ class Network:
             for layer in self.layers:
                 output = layer.forward_propagation(output)
             result.append(output)
-
+        
+        print('\n')
         return result
 
     # train the network
