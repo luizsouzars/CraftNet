@@ -3,19 +3,26 @@ https://machinelearningmastery.com/weight-initialization-for-deep-learning-neura
 https://www.deeplearning.ai/ai-notes/initialization/index.html
 
 """
+import numpy as np
 
-class Xavier():
-    
-    def __init__(self) -> None:
-        pass
-    
-    def update():
-        pass
-   
-class He():
-    
-    def __init__(self) -> None:
-        pass
-    
-    def update():
-        pass
+def he_normal(rows, cols):
+    std_dev = np.sqrt(2.0 / rows)
+    return std_dev * np.random.randn(rows, cols)
+
+def he_uniform(rows, cols):
+    limit = np.sqrt(6.0 / rows)
+    return 2 * limit * np.random.rand(rows, cols) - limit
+
+def xavier_normal(rows, cols):
+    std_dev = np.sqrt(2.0 / (rows + cols))
+    return std_dev * np.random.randn(rows, cols)
+
+def xavier_uniform(rows, cols):
+    limit = np.sqrt(6.0 / (rows + cols))
+    return 2 * limit * np.random.rand(rows, cols) - limit
+
+def normal(rows, cols):
+    return np.random.randn(rows, cols)
+
+def uniform(rows, cols):
+    return np.random.rand(rows, cols)
