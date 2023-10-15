@@ -45,3 +45,14 @@ def linear(x: np.ndarray) -> np.ndarray:
 
 def linear_prime(x: np.ndarray) -> np.ndarray:
     return 1
+
+def softmax(x: np.ndarray) -> np.ndarray:
+    exp = np.exp(x)
+    return exp / np.sum(exp, axis=1, keepdims=True)
+
+def softmax_prime(x: np.ndarray, y_oh: np.ndarray) -> np.ndarray:
+    y_pred = softmax(x)
+    k = np.nonzero(y_pred * y_oh)
+    pk = y_pred[k]
+    y_pred[k] = pk * (1.0 - pk)
+    return y_pred

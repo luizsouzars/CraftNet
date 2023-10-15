@@ -1,37 +1,16 @@
-#from layer import Layer
+from layer import Layer
 import numpy as np
-from optimizers import adam, sgd
-from activations import (
-    tanh,
-    tanh_prime,
-    sigmoid,
-    sigmoid_prime,
-    ReLU,
-    ReLU_prime,
-    leakyReLU,
-    leakyReLU_prime,
-    linear,
-    linear_prime,
-)
-from weights import (
-    he_normal,
-    he_uniform,
-    normal,
-    uniform,
-    xavier_normal,
-    xavier_uniform,
-)
+
 
 # inherit from base class Layer
-class FCLayer():
+class FCLayer(Layer):
     # input_size = number of input neurons
     # output_size = number of output neurons
-    def __init__(self, input_size, output_size, activation, initialization = xavier_normal, optimizer = sgd):
+    def __init__(self, input_size, output_size):
+        self.input = None
         self.weights = np.random.rand(input_size, output_size) - 0.5
         # self.bias = np.random.rand(1, output_size).reshape((-1, output_size)) #Implementação original
         self.bias = 1  # Inicialização fixa em 1
-        self.activation = activation
-        self.initialization = initialization
 
     # returns output for a given input
     def forward_propagation(self, input_data):
