@@ -1,4 +1,5 @@
 import numpy as np
+from metrics import accuracy
 
 
 class Network:
@@ -75,6 +76,7 @@ class Network:
         epochs: int,
         batch_size: int,
         optimizer,
+        verbose: bool = False,
     ):
         """
         Trains the neural network using the provided training dataset.
@@ -108,11 +110,14 @@ class Network:
 
             for iterarion, mini_batch in enumerate(mini_batches):
                 err_iteration = 0
+                predictions = []
                 for j in mini_batch:
                     # forward propagation
                     output = x_train[j]
                     for layer in self.layers:
                         output = layer.forward_propagation(output)
+
+                    predictions.append(output)
 
                     # compute loss (for display purpose only)
                     err_iteration += self.loss(y_train[j], output)
@@ -124,9 +129,10 @@ class Network:
                         error = layer.backward_propagation(
                             error, optimizer.learning_rate
                         )
-                print(
-                    f"epoch:{i+1}    iteration:{iterarion+1}/{iterations+1}   error={err_iteration}"
-                )
+                if verbose:
+                    print(
+                        f"epoch:{i+1}    iteration:{iterarion+1}/{iterations+1}   error={err_iteration}    Acc:{accuracy(mini_batch,predictions)}"
+                    )
 
             # calculate average error on all samples
             err_epoch /= samples
