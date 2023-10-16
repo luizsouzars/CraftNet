@@ -63,8 +63,8 @@ class Network:
             for layer in self.layers:
                 output = layer.forward_propagation(output)
             result.append(output)
-        
-        print('\n')
+
+        print("\n")
         return result
 
     # train the network
@@ -125,7 +125,7 @@ class Network:
                             error, optimizer.learning_rate
                         )
                 print(
-                    f"epoch:{i+1}    iteration:{iterarion+1}/{iterations}   error={err_iteration}"
+                    f"epoch:{i+1}    iteration:{iterarion+1}/{iterations+1}   error={err_iteration}"
                 )
 
             # calculate average error on all samples
