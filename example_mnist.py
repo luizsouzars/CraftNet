@@ -1,9 +1,10 @@
 import numpy as np
+import pickle
 import idx2numpy
 from network import Network
 from fc_layer import FCLayer
 from activation_layer import ActivationLayer
-from MiniBatchGD import mini_batch
+from metrics import accuracy
 from activations import (
     tanh,
     tanh_prime,
@@ -29,6 +30,7 @@ from weights import (
     xavier_uniform,
 )
 
+
 train_img = idx2numpy.convert_from_file(r"./mnist/train-images.idx3-ubyte").reshape(
     60000, 1, 28 * 28
 )
@@ -41,12 +43,7 @@ test_img = idx2numpy.convert_from_file(r"./mnist/t10k-images.idx3-ubyte").reshap
 )
 test_lbs = idx2numpy.convert_from_file(r"./mnist/t10k-labels.idx1-ubyte").reshape(-1, 1)
 
-print(train_img.shape)
-print(train_lbs.shape)
-print(test_img.shape)
-print(test_lbs.shape)
-
-# Normalização dos valores entre [0,1]
+# Normalização dos pixels da imagem entre [0,1]
 train_img = train_img.astype("float32") / 255
 test_img = test_img.astype("float32") / 255
 
@@ -73,14 +70,18 @@ net.add(ActivationLayer(ReLU, ReLU_prime))
 
 # train
 net.use(mse, mse_prime)
-net.fit(train_img, train_lbs, epochs=5, batch_size=64, optimizer=adam())
+net.fit(train_img, train_lbs, epochs=5, batch_size=64, optimizer=adam(), verbose=False)
 
-# test
-out = net.predict(test_img)
-# print(out)
+# Save Model
+net.save("./model.pkl")
 
+# Load Model
+net2 = Network.load("./model.pkl")
+out = net2.predict(test_img)
 
-for i in range(len(test_lbs[:20])):
-    print("y    :", np.argmax(test_lbs[i]))
-    print("y_hat:", np.argmax(out[i]))
-    print()
+print("    Label:", [(np.argmax(x)) for x in test_lbs[:20]])
+print("Predicted:", [(np.argmax(x)) for x in out[:20]])
+
+# Print Accuracy
+acc = accuracy(test_lbs, out)
+print(f"Accuracy: {acc:.4f}")

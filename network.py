@@ -1,4 +1,5 @@
 import numpy as np
+import pickle as pkl
 from metrics import accuracy
 
 
@@ -19,6 +20,12 @@ class Network:
         self.layers = []
         self.loss = None
         self.loss_prime = None
+
+    def save(self, file_path):
+        pkl.dump(self, open(file_path, "wb"), -1)
+
+    def load(file_path):
+        return pkl.load(open(file_path, "rb"))
 
     # add layer to network
     def add(self, layer):
@@ -64,8 +71,6 @@ class Network:
             for layer in self.layers:
                 output = layer.forward_propagation(output)
             result.append(output)
-
-        print("\n")
         return result
 
     # train the network
@@ -126,14 +131,12 @@ class Network:
                     # backward propagation
                     error = self.loss_prime(y_train[j], output)
                     for layer in reversed(self.layers):
-                        error = layer.backward_propagation(
-                            error, optimizer.learning_rate
-                        )
+                        error = layer.backward_propagation(error, optimizer)
                 if verbose:
                     print(
-                        f"epoch:{i+1}    iteration:{iterarion+1}/{iterations+1}   error={err_iteration}    Acc:{accuracy(mini_batch,predictions)}"
+                        f"epoch:{i+1}  iteration:{iterarion+1}/{iterations+1}   error={err_iteration:.4f}   Acc:{accuracy(mini_batch,predictions):.4f}"
                     )
 
             # calculate average error on all samples
             err_epoch /= samples
-            print("epoch %d/%d   error=%f" % (i + 1, epochs, err_epoch))
+            print("epoch %d/%d   error=%.4f" % (i + 1, epochs, err_epoch))
